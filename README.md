@@ -41,7 +41,31 @@ Link the vendored files from your popup or options HTML:
 ```html
 <link rel="stylesheet" href="./vendor/tokens.css" />
 <link rel="stylesheet" href="./vendor/webext-ui.css" />
+<link rel="stylesheet" href="./popup.css" />
 ```
+
+Your own stylesheet comes last and should hold only what is specific to your
+extension — in most cases that is just its accent:
+
+```css
+:root {
+  --accent: #1a73e8;
+  --accent-fg: #ffffff; /* must reach 4.5:1 on --accent */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #8ab4f8;
+    --accent-fg: #1c1b22;
+  }
+}
+```
+
+> [!WARNING]
+> `--accent-fg` is a paired value that flips with `--accent` — check it, don't
+> guess it. White on a mid orange measures 3.48:1 and fails AA; ink on the same
+> orange is 4.92:1. And never put the accent in _text_: an accent-toned status
+> label is a filled `.badge`, not coloured type.
 
 ## Usage
 
@@ -53,7 +77,7 @@ Synced tokens.css, webext-ui.css to src/vendor/
 Each vendored file opens with a stamped header comment giving its version:
 
 ```css
-/* @kud/webext-ui — tokens.css 0.3.1 ... */
+/* @kud/webext-ui — tokens.css v0.1.0 */
 ```
 
 That stamp is the whole point of shipping a version at all — with several consumer repos each holding their own copy, "is repo X still on the latest tokens.css?" is answerable with one `grep` against the first line of the vendored file, rather than diffing bytes against this repo every time.
@@ -74,6 +98,8 @@ npm run build
 npm test
 ```
 
-`src/css/tokens.css` and `src/css/webext-ui.css` are the actual source of truth for styling — extend the design system there, not in `dist/`. `npm run build` runs `tsup` on the CLI entry, then a stamp-css step that copies both source files into `dist/` with the `@VERSION@` placeholder in their header comments replaced by the current `package.json` version. `npm test` runs Vitest; its `pretest` script runs the build automatically, so tests always exercise a freshly stamped `dist/`.
+`src/css/tokens.css` and `src/css/webext-ui.css` are the actual source of truth for styling — extend the design system there, not in `dist/`. `npm run build` runs `tsup` on the CLI entry, then a stamp-css step that copies both source files into `dist/` with the `@VERSION@` placeholder in their header comments replaced by the current `package.json` version. `npm test` builds and then runs Vitest, so the tests always exercise a freshly stamped `dist/` — the build is chained into the `test` script rather than left to a `pretest` hook, because a global `ignore-scripts=true` in npm config silently suppresses lifecycle hooks and would otherwise test a stale `dist/`.
+
+`demo/index.html` is a catalogue of every primitive in both themes. Open it directly from disk after a build — it loads `dist/`, and appending `#f-btn`, `#f-input`, `#f-toggle` or `#f-reveal` forces that control into a focus state so the ring can be reviewed.
 
 📚 **Full documentation → [webext-ui/docs](https://kud.io/projects/webext-ui/docs)**
