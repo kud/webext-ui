@@ -1,0 +1,44 @@
+{
+  "name": "@kud/webext-ui",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A design system for Firefox WebExtension popups and options pages — two CSS files (tokens.css + webext-ui.css), vendored into each consumer via a sync CLI.",
+  "bin": {
+    "webext-ui": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && tsx scripts/stamp-css.ts && chmod +x dist/cli.js",
+    "build:watch": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "homepage": "https://kud.io/projects/webext-ui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kud/webext-ui.git"
+  },
+  "author": "kud",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "26.2.0",
+    "tsup": "8.5.1",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  }
+}
