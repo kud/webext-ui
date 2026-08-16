@@ -15,8 +15,7 @@
     "build": "tsup && tsx scripts/stamp-css.ts && chmod +x dist/cli.js",
     "build:watch": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "pretest": "npm run build",
-    "test": "vitest run",
+    "test": "npm run build && vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build"
   },
