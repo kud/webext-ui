@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>webext-ui — catalogue</title>
+    <link rel="stylesheet" href="../dist/tokens.css" />
+    <link rel="stylesheet" href="../dist/webext-ui.css" />
+    <style>
+      /* Catalogue chrome only — not part of the system. */
+      body {
+        padding: var(--space-6);
+      }
+      .specimen {
+        margin-bottom: var(--space-6);
+      }
+      .specimen > h2 {
+        font-size: var(--text-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        margin-bottom: var(--space-2);
+      }
+      .bench {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3);
+        border: 1px dashed var(--border-control);
+        border-radius: var(--radius-lg);
+      }
+      .bench-col {
+        flex-direction: column;
+        align-items: stretch;
+        width: var(--popup-narrow);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>webext-ui</h1>
+    <p class="status">
+      Every primitive, both themes. Tab through it — each control must show a
+      ring.
+    </p>
+
+    <section class="specimen">
+      <h2>Buttons</h2>
+      <div class="bench">
+        <button class="btn">Neutral</button>
+        <button class="btn btn-primary" id="f-btn">Primary</button>
+        <button class="btn" disabled>Disabled</button>
+        <button class="btn btn-primary" disabled>Disabled primary</button>
+        <button class="btn btn-icon" aria-label="Icon">✎</button>
+      </div>
+      <div class="bench bench-col">
+        <button class="btn btn-primary btn-block">Block primary</button>
+        <button class="btn btn-block">Block neutral</button>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Status dots — shape, not hue</h2>
+      <div class="bench">
+        <span class="cluster"
+          ><span class="dot" data-tone="idle"></span> idle</span
+        >
+        <span class="cluster"
+          ><span class="dot" data-tone="ready"></span> ready</span
+        >
+        <span class="cluster"><span class="dot" data-tone="on"></span> on</span>
+        <span class="cluster"
+          ><span class="dot" data-tone="success"></span> success</span
+        >
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Badges</h2>
+      <div class="bench">
+        <span class="badge">Inactive</span>
+        <span class="badge badge-accent">Active</span>
+        <span class="badge badge-success">Saved</span>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Toggle</h2>
+      <div class="bench bench-col">
+        <label class="row">
+          <span>Off</span>
+          <span class="switch">
+            <input type="checkbox" />
+            <span class="track"><span class="thumb"></span></span>
+          </span>
+        </label>
+        <label class="row">
+          <span>On</span>
+          <span class="switch">
+            <input type="checkbox" checked id="f-toggle" />
+            <span class="track"><span class="thumb"></span></span>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Rows — divided</h2>
+      <div class="bench bench-col">
+        <dl class="rows-divided">
+          <div class="row">
+            <dt>Turns in conversation</dt>
+            <dd>128</dd>
+          </div>
+          <div class="row">
+            <dt>Virtualised</dt>
+            <dd>96</dd>
+          </div>
+          <div class="row">
+            <dt>Rendered live</dt>
+            <dd>32</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Rows — full bleed, with hover-revealed controls</h2>
+      <div class="bench bench-col" style="padding: 0">
+        <ul class="list rows-divided">
+          <li class="row-bleed">
+            <button class="row-main">
+              <span class="dot" data-tone="on"></span>
+              <span class="row-text">
+                <div class="row-name">GitHub</div>
+                <div class="row-match">github.com</div>
+              </span>
+            </button>
+            <button class="btn-icon reveal-on-hover" id="f-reveal" aria-label="Favourite">
+              ☆
+            </button>
+            <button class="btn-icon reveal-on-hover" aria-label="Edit">
+              ✎
+            </button>
+            <button class="btn-icon reveal-on-hover" aria-label="Delete">
+              ×
+            </button>
+          </li>
+          <li class="row-bleed">
+            <button class="row-main">
+              <span class="dot" data-tone="idle"></span>
+              <span class="row-text">
+                <div class="row-name">
+                  A very long target name that has to be truncated
+                </div>
+                <div class="row-match">example.com</div>
+              </span>
+            </button>
+            <button class="btn-icon reveal-on-hover" aria-label="Favourite">
+              ☆
+            </button>
+            <button class="btn-icon reveal-on-hover" aria-label="Edit">
+              ✎
+            </button>
+            <button class="btn-icon reveal-on-hover" aria-label="Delete">
+              ×
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Form controls</h2>
+      <div class="bench bench-col">
+        <label class="field">
+          <span>URL</span>
+          <input type="text" id="f-input" placeholder="Opened when no tab matches" />
+        </label>
+        <div class="field-row">
+          <label class="field"><span>Title</span><input type="text" /></label>
+          <label class="field">
+            <span>Mode</span>
+            <select>
+              <option>Main domain</option>
+              <option>Short</option>
+            </select>
+          </label>
+        </div>
+        <label class="field-inline">
+          <input type="checkbox" checked /> Show recent history
+        </label>
+        <p class="field-note">
+          A note under a control, at --muted rather than --faint.
+        </p>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Text</h2>
+      <div class="bench bench-col">
+        <p class="status">A status line, at --muted.</p>
+        <p class="hint">A hint, 11px at --muted — 6.70:1 rather than 3.19:1.</p>
+        <p class="state">
+          An empty state.<br />Run <code>foxhop install</code> to begin.
+        </p>
+        <p><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></p>
+      </div>
+    </section>
+
+    <section class="specimen">
+      <h2>Card</h2>
+      <div class="card" style="max-width: 420px">
+        <label class="field">
+          <span>Email address</span>
+          <input type="email" required placeholder="you@example.com" />
+        </label>
+      </div>
+    </section>
+    <script>
+      // #f-btn, #f-input, #f-toggle, #f-reveal — forces a focus-visible state so
+      // the ring can be reviewed in a static render.
+      const target = document.getElementById(location.hash.slice(1))
+      if (target) target.focus({ focusVisible: true })
+    </script>
+  </body>
+</html>

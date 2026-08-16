@@ -95,10 +95,20 @@ body {
   padding: var(--space-6);
 }
 
+/* A vertical rhythm for a whole popup, replacing per-element margins. */
 .stack {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+
+/* Things sitting together on one line, left-aligned — a status dot beside a
+   title, an icon beside a label. Distinct from .row, which pushes its ends
+   apart. */
+.cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 /* ── typography ─────────────────────────────────────────────────────────── */
@@ -477,13 +487,21 @@ body {
   pointer-events: none;
 }
 
+/* The off state keeps a light surface but gains a perceptible edge. At
+   --border it measured 1.17:1 against --bg, so an unchecked toggle was very
+   nearly invisible — you could not see the control was there at all. Filling
+   the track with --border-control instead would fix that and make the off
+   state read as "on", which is worse. */
 .track {
   display: block;
   width: 38px;
   height: 22px;
   border-radius: var(--radius-pill);
-  background: var(--border-control);
-  transition: background var(--dur-fast) var(--ease);
+  background: var(--hover);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+  transition:
+    background var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
 }
 
 .thumb {
@@ -500,6 +518,7 @@ body {
 
 .switch input:checked + .track {
   background: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 
 .switch input:checked + .track .thumb {
