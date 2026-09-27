@@ -1,6 +1,6 @@
 {
   "name": "@kud/webext-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "A design system for Firefox WebExtension popups and options pages — two CSS files (tokens.css + webext-ui.css), vendored into each consumer via a sync CLI.",
   "bin": {
