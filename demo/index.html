@@ -137,7 +137,11 @@
                 <div class="row-match">github.com</div>
               </span>
             </button>
-            <button class="btn-icon reveal-on-hover" id="f-reveal" aria-label="Favourite">
+            <button
+              class="btn-icon reveal-on-hover"
+              id="f-reveal"
+              aria-label="Favourite"
+            >
               ☆
             </button>
             <button class="btn-icon reveal-on-hover" aria-label="Edit">
@@ -176,7 +180,24 @@
       <div class="bench bench-col">
         <label class="field">
           <span>URL</span>
-          <input type="text" id="f-input" placeholder="Opened when no tab matches" />
+          <input
+            type="text"
+            id="f-input"
+            placeholder="Opened when no tab matches"
+          />
+        </label>
+        <label class="field">
+          <span>Invalid</span>
+          <input
+            type="text"
+            class="is-invalid"
+            value="not a url"
+            aria-describedby="demo-error"
+            aria-invalid="true"
+          />
+          <span class="field-error" id="demo-error"
+            >Enter a full URL, starting with https://</span
+          >
         </label>
         <div class="field-row">
           <label class="field"><span>Title</span><input type="text" /></label>
