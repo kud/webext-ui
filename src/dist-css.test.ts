@@ -52,7 +52,10 @@ describe("package exports", () => {
     expect(exportsMap[`./${file}`]).toBe(`./dist/${file}`)
   })
 
-  it.each(Object.entries(exportsMap))("%s resolves to an emitted file", (_, target) => {
-    expect(() => readFileSync(join(process.cwd(), target))).not.toThrow()
-  })
+  it.each(Object.entries(exportsMap))(
+    "%s resolves to an emitted file",
+    (_, target) => {
+      expect(() => readFileSync(join(process.cwd(), target))).not.toThrow()
+    },
+  )
 })
