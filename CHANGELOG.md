@@ -4,6 +4,25 @@ All notable changes to this project are documented here.
 
 ---
 
+## 0.3.0 — 2026-10-02
+
+### Highlights
+
+- Extensions built with a bundler (WXT, Vite) can now import `@kud/webext-ui/tokens.css` and `@kud/webext-ui/webext-ui.css` straight from npm instead of vendoring them. Vendoring via `npx @kud/webext-ui sync` still works unchanged for unbundled extensions. ([84dacd1](https://github.com/kud/webext-ui/commit/84dacd1499fa52bfc1c863ddf5fd020943c1ab3a))
+
+### Documentation
+
+- The README now covers both paths: importing from `node_modules` when you have a bundler, and vendoring only when you don't. ([84dacd1](https://github.com/kud/webext-ui/commit/84dacd1499fa52bfc1c863ddf5fd020943c1ab3a))
+
+<details>
+<summary>Internal (2 commits)</summary>
+
+- A new test checks that every package export points at an emitted file, and the test file was reformatted for readability. ([84dacd1](https://github.com/kud/webext-ui/commit/84dacd1499fa52bfc1c863ddf5fd020943c1ab3a), [1ea39ba](https://github.com/kud/webext-ui/commit/1ea39ba787e5a18c463af22a0deca19dd8365caf))
+
+</details>
+
+---
+
 ## 0.2.0 — 2026-09-27
 
 ### Highlights
