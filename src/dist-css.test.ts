@@ -40,3 +40,19 @@ describe("shipped css", () => {
     expect(source).toContain("@VERSION@")
   })
 })
+
+// Bundled consumers (WXT, Vite) import the stylesheets by package subpath, so
+// every exported path must point at a file the build actually emits.
+describe("package exports", () => {
+  const exportsMap: Record<string, string> = JSON.parse(
+    readFileSync(join(process.cwd(), "package.json"), "utf8"),
+  ).exports
+
+  it.each(cssFiles)("exports ./%s", (file) => {
+    expect(exportsMap[`./${file}`]).toBe(`./dist/${file}`)
+  })
+
+  it.each(Object.entries(exportsMap))("%s resolves to an emitted file", (_, target) => {
+    expect(() => readFileSync(join(process.cwd(), target))).not.toThrow()
+  })
+})

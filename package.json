@@ -11,6 +11,11 @@
     "README.md",
     "LICENSE"
   ],
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./webext-ui.css": "./dist/webext-ui.css",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsup && tsx scripts/stamp-css.ts && chmod +x dist/cli.js",
     "build:watch": "tsup --watch",
