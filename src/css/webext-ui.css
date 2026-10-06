@@ -258,6 +258,9 @@ body {
   align-items: center;
   gap: var(--space-3);
   margin: 0 var(--space-2);
+  /* Not auto: a <button> shrinks to fit its label under auto and wraps
+     "Add current tab…" onto two lines. */
+  width: calc(100% - var(--space-2) * 2);
   padding: var(--space-2);
   border: none;
   border-radius: var(--radius-xl);
@@ -272,14 +275,12 @@ body {
 }
 
 button.row-bleed {
-  width: calc(100% - 2 * var(--space-2));
   cursor: pointer;
 }
 
-/* Inset, because a row sits close to the popup edge and an outset ring can
-   lose its left and right sides outside the viewport. */
+/* Outset: the row sits inset from the popup edge, so the ring clears it. */
 .row-bleed:focus-visible {
-  outline-offset: calc(var(--focus-ring-width) * -1);
+  outline-offset: var(--focus-ring-offset);
 }
 
 /* The primary action of a row, when the row also carries secondary buttons.
@@ -324,7 +325,7 @@ button.row-bleed {
 .list {
   list-style: none;
   margin: 0;
-  padding: 0 0 var(--space-2);
+  padding: var(--space-1) 0 var(--space-2);
   max-height: var(--list-max-height, 340px);
   overflow-y: auto;
 }
@@ -346,10 +347,8 @@ button.row-bleed {
 
 /* ── buttons ────────────────────────────────────────────────────────────── */
 
-/* .btn is the secondary button: a pill, transparent, with an accent edge, as
-   Nova draws it. .btn-primary fills it with the accent, .btn-block makes it
-   full width. The accent edge measures 3.48:1 on --bg for the default orange,
-   over the 3:1 non-text bar. */
+/* .btn is a neutral tinted pill, .btn-primary an accent tint with --fg text,
+   .btn-ghost transparent. .btn-block makes it full width. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -357,9 +356,9 @@ button.row-bleed {
   gap: var(--space-2);
   min-height: var(--control-height);
   padding: var(--space-1) var(--space-4);
-  border: 1px solid var(--accent);
+  border: none;
   border-radius: var(--radius-pill);
-  background: transparent;
+  background: color-mix(in srgb, var(--fg) 7%, transparent);
   color: var(--fg);
   font: 600 var(--text-base) / var(--line-tight) var(--font-sans);
   cursor: pointer;
@@ -367,7 +366,7 @@ button.row-bleed {
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--hover);
+  background: color-mix(in srgb, var(--fg) 14%, transparent);
 }
 
 /* --muted on --hover, not --faint. Disabled controls are WCAG-exempt, but
@@ -381,22 +380,22 @@ button.row-bleed {
 }
 
 .btn-primary {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--accent-fg);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg));
+  color: var(--fg);
 }
 
-/* Hover mixes the fill away from --accent-fg, so the pair only ever gains
-   contrast. brightness(1.08) took white-on-blue from 4.51 to 3.94:1, and on
-   a near-black accent it moved nothing you could see. */
 .btn-primary:hover:not(:disabled) {
-  --accent-hover: color-mix(
-    in oklab,
-    var(--accent) 86%,
-    rgb(from var(--accent-fg) calc(255 - r) calc(255 - g) calc(255 - b))
-  );
-  border-color: var(--accent-hover);
-  background: var(--accent-hover);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent) 32%, var(--bg));
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--hover);
 }
 
 .btn-primary:disabled {
@@ -452,9 +451,9 @@ button.row-bleed {
   font: var(--text-base) / var(--line-base) var(--font-sans);
 }
 
-/* Nova's search field is a pill. */
+/* Search keeps the 12px field radius and grows taller to clear its icon. */
 :where(input[type="search"]) {
-  border-radius: var(--radius-pill);
+  min-height: 36px;
   padding-inline: var(--space-4);
 }
 

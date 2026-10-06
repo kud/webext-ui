@@ -27,7 +27,7 @@
   --muted: #605970; /* --text-color-deemphasized, fg at 69% baked to hex. 6.64:1 on --bg — the lightest colour text may use */
   --faint: #817f84; /* gray-45 = --border-color-interactive. 3.96:1 on --bg — NON-TEXT ONLY: icons, dividers, disabled */
   --hover: #efedf2; /* gray-10. fg 15.79:1 */
-  --border: #c5c3cb; /* --panel-separator-color, fg at 25% baked. A divider, never a control edge */
+  --border: #ededf0; /* A divider, never a control edge */
   /* Firefox's own input border (gray-30, 2.02:1) fails WCAG 1.4.11, so the
      control edge takes the interactive border instead. */
   --border-control: #817f84; /* gray-45 = --border-color-interactive. 3.96:1 on --bg */
@@ -98,7 +98,7 @@
     --muted: #aeacb3; /* fg at 69% baked. 8.08:1 on --bg */
     --faint: #949297; /* gray-40 = --border-color-interactive. 5.89:1 — still non-text only, for consistency of meaning */
     --hover: #312f33; /* gray-65. fg 11.73:1 */
-    --border: #4e4c51; /* fg at 25% baked */
+    --border: #2b292e; /* A divider, never a control edge */
     --border-control: #949297; /* 5.89:1 on --bg */
 
     --accent: #ff9a3d;
