@@ -6,7 +6,7 @@ Ground rule for reading it: migrating an extension onto the system swaps imports
 
 Content scripts are out of scope. Notionish restyles Google's DOM and has to win the cascade; Email Address Plus injects an inline-styled tooltip and floating icon into third-party pages. Neither is a popup or options surface, and neither should adopt the system.
 
-Snapshot taken against `@kud/webext-ui` 0.3.0.
+Snapshot taken against `@kud/webext-ui` 0.3.0, before the Nova alignment. The Nova alignment changes pixels for every consumer on re-sync; the piece census below is unaffected.
 
 ## What the system provides
 
@@ -21,11 +21,13 @@ Two CSS files, no JS. "Components" here are classes, modifiers and `data-` attri
 | Focus    | `--focus-ring` `--focus-ring-width` `--focus-ring-offset`                                                        |
 | Spacing  | `--space-1` 4 · `-2` 8 · `-3` 12 · `-4` 16 · `-6` 24 · `-8` 32                                                   |
 | Type     | `--font-sans` `--font-mono` · `--text-xs` 11 · `-sm` 12 · `-base` 14 · `-lg` 15 · line 1.2 / 1.4 / 1.6           |
-| Radius   | `--radius-sm` 4 · `-md` 6 · `-lg` 8 · `-xl` 12 · `-pill`                                                         |
-| Sizing   | `--control-height` 38 · `--popup-narrow` 260 · `--popup-wide` 360                                                |
+| Radius   | `--radius-sm` 4 · `-md` 8 · `-lg` 12 · `-xl` 16 · `-pill`                                                        |
+| Sizing   | `--control-height` 32 · `--popup-narrow` 260 · `--popup-wide` 360                                                |
 | Motion   | `--dur-fast` 150ms · `--dur-slow` 300ms · `--ease`                                                               |
 
 Dark mode flips colour and identity tokens under `prefers-color-scheme`.
+
+The scale follows Firefox's Nova design: violet-tinted greys, 8/12/16 radii, 32px controls, pill buttons and search field. Values are copied into `tokens.css` with a comment naming the Firefox token each one copies (source: mozilla-firefox/firefox@913f1b0), because an extension page cannot see the browser's custom properties. Two Firefox values are deliberately not copied: its input border (2.02:1, fails 3:1) and its success green (4.46:1 as text). The accent stays per extension.
 
 **Classes** (`webext-ui.css`)
 
@@ -35,8 +37,8 @@ Dark mode flips colour and identity tokens under `prefers-color-scheme`.
 | Layout     | `.popup` (narrow, padded) · `.popup-wide` (full-bleed) · `.page` · `.card` · `.stack` · `.cluster`                                                    |
 | Type       | `h1`/`.title` · `.page h1`/`h2` · `.status` · `.hint` · `.section-title` · `.state` · `kbd` · `code`                                                  |
 | Status dot | `.dot[data-tone="off\|idle\|ready\|on\|success"]`, distinguished by shape (thin ring, thick ring, solid)                                              |
-| Rows       | `.row` · `.rows-divided` · `.row-bleed` · `.row-main` · `.row-text` · `.row-name` · `.row-match` · `.list` · `.reveal-on-hover`                       |
-| Buttons    | `.btn` · `.btn-primary` · `.btn-block` · `.btn-icon`                                                                                                  |
+| Rows       | `.row` · `.rows-divided` · `.row-bleed` (Nova menu item: 8px inset, 16px highlight, no dividers) · `.row-main` · `.row-text` · `.row-name` · `.row-match` · `.list` · `.reveal-on-hover`                       |
+| Buttons    | `.btn` (pill, transparent, accent edge) · `.btn-primary` · `.btn-block` · `.btn-icon` (round)                                                         |
 | Forms      | text-like inputs, `select`, `textarea` · `:user-invalid` / `.is-invalid` · `.field-error` · `.field` · `.field-row` · `.field-inline` · `.field-note` |
 | Toggle     | `.switch > input + .track > .thumb`                                                                                                                   |
 | Badge      | `.badge` · `.badge-accent` · `.badge-success`                                                                                                         |
@@ -151,7 +153,7 @@ Each of these changes pixels, so each wants its own yes. In rough order of value
 3. **Fox Hop: centred 15px header → `.bar`, left-aligned, 14px.** Matches the other four and removes the absolute positioning.
 4. **Email Address Plus options: adopt the Notionish anatomy.** An `h1`, then sections; `.spoiler` becomes `.field-note`. Keep the card if it earns it; one of the two pages should not be the odd one out.
 5. **Icon language.** Settle on inline SVG, 16px, `stroke="currentColor"`, 2px stroke, `aria-hidden="true"`, inside `.btn-icon` for controls. Retire emoji in titles; status glyphs (✓, ✕, !) as SVG keep their shape distinction without depending on OS emoji colour. Document this in the README as a convention, not a component: the system stays CSS-only.
-6. **Fox Hop `.open-dot` → `.dot` with a small-size modifier.** One dot vocabulary. Needs a decision on whether "open" reads as `on` (accent) or stays `--fg`.
+6. **Fox Hop `.open-dot` → `.dot` with a small-size modifier.** One dot vocabulary. Needs a decision on whether "open" reads as `on` (accent) or stays `--fg`. Under Nova the white `--fg` dots are the brightest marks in the list: if it stays local, move it to `--muted` (6.64:1 light, 8.08:1 dark).
 7. **Placeholder token** `--faint` → `--muted`, upstream.
 
 Re-syncing SmoothGPT and Fox Hop to 0.3.0 can happen at any point; it is a header-comment change only.

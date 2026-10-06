@@ -33,6 +33,7 @@
       }
       .bench-col {
         flex-direction: column;
+        flex-wrap: nowrap;
         align-items: stretch;
         width: var(--popup-narrow);
       }
@@ -128,7 +129,7 @@
     <section class="specimen">
       <h2>Rows — full bleed, with hover-revealed controls</h2>
       <div class="bench bench-col" style="padding: 0">
-        <ul class="list rows-divided">
+        <ul class="list">
           <li class="row-bleed">
             <button class="row-main">
               <span class="dot" data-tone="on"></span>
@@ -222,7 +223,7 @@
       <h2>Text</h2>
       <div class="bench bench-col">
         <p class="status">A status line, at --muted.</p>
-        <p class="hint">A hint, 11px at --muted — 6.70:1 rather than 3.19:1.</p>
+        <p class="hint">A hint, 11px at --muted — 6.64:1 rather than 3.96:1.</p>
         <p class="state">
           An empty state.<br />Run <code>foxhop install</code> to begin.
         </p>
