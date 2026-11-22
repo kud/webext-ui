@@ -403,7 +403,13 @@ button.row-bleed {
 /* Small square icon button, for the controls that sit inside a row. */
 .btn-icon {
   flex: none;
-  min-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 24px is the WCAG 2.2 target-size floor (2.5.8), and Firefox's own small
+     icon button (--button-size-icon-small). */
+  min-width: 24px;
+  min-height: 24px;
   padding: var(--space-1);
   border: none;
   border-radius: var(--radius-sm);
@@ -441,8 +447,11 @@ button.row-bleed {
   font: var(--text-base) / var(--line-base) var(--font-sans);
 }
 
+/* Placeholder is text, so it takes the text-safe --muted (6.70:1), not
+   --faint, which tokens.css reserves for non-text. */
 :where(input, select, textarea)::placeholder {
-  color: var(--faint);
+  color: var(--muted);
+  opacity: 1;
 }
 
 /* :user-invalid, not :invalid — :invalid matches an empty required field
@@ -562,6 +571,16 @@ button.row-bleed {
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
 }
 
+/* Mirrored for right-to-left locales, as moz-toggle does. */
+.switch:dir(rtl) .thumb {
+  left: auto;
+  right: 3px;
+}
+
+.switch:dir(rtl) input:checked + .track .thumb {
+  transform: translateX(-16px);
+}
+
 /* The input is visually hidden but still focusable, so the ring has to be
    drawn on the track. Without this the toggle is tabbable and gives no
    visible response whatsoever — which is what the whole fleet did. */
@@ -612,4 +631,92 @@ button.row-bleed {
   border-color: var(--success);
   background: var(--success);
   color: var(--bg);
+}
+
+/* ── forced colours ─────────────────────────────────────────────────────── */
+
+/* Windows High Contrast and Firefox's "Override the colours" setting replace
+   every colour with a small system palette and drop box-shadow. Anything drawn
+   with a shadow or told apart by fill alone disappears: the dots, the whole
+   toggle, the invalid edge, and the primary/neutral split. Firefox's own tokens
+   and moz-toggle handle this case; these rules mirror them, using real borders
+   and system colours so the browser keeps them. */
+@media (forced-colors: active) {
+  .dot {
+    forced-color-adjust: none;
+    background: Canvas;
+    box-shadow: none;
+    border: 1.5px solid CanvasText;
+  }
+
+  .dot[data-tone="off"],
+  .dot[data-tone="idle"] {
+    background: Canvas;
+    box-shadow: none;
+  }
+
+  .dot[data-tone="ready"] {
+    background: Canvas;
+    box-shadow: none;
+    border-width: 3px;
+  }
+
+  .dot[data-tone="on"],
+  .dot[data-tone="success"] {
+    background: CanvasText;
+    border-color: CanvasText;
+  }
+
+  .switch {
+    forced-color-adjust: none;
+  }
+
+  .track {
+    background: Canvas;
+    box-shadow: none;
+    border: 1px solid ButtonText;
+  }
+
+  .thumb {
+    background: ButtonText;
+    box-shadow: none;
+  }
+
+  .switch input:checked + .track {
+    background: SelectedItem;
+    box-shadow: none;
+    border-color: SelectedItem;
+  }
+
+  .switch input:checked + .track .thumb {
+    background: SelectedItemText;
+    box-shadow: none;
+  }
+
+  .switch input:disabled + .track {
+    border-color: GrayText;
+  }
+
+  .switch input:disabled + .track .thumb {
+    background: GrayText;
+  }
+
+  /* The edge stays the system border colour; its weight carries the state. */
+  :where(input, select, textarea):user-invalid,
+  :where(input, select, textarea).is-invalid {
+    border-width: 2px;
+    box-shadow: none;
+  }
+
+  /* Primary keeps a fill so it still reads as the default action. */
+  .btn-primary:not(:disabled) {
+    forced-color-adjust: none;
+    border-color: SelectedItem;
+    background: SelectedItem;
+    color: SelectedItemText;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    border-color: ButtonText;
+  }
 }
